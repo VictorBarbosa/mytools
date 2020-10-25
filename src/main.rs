@@ -1,6 +1,8 @@
 use clap::{App, Arg};
 
-#[path = "windows/commnad_line.rs"]
+#[path = "linux/command_line.rs"]
+mod bs;
+#[path = "windows/command_line.rs"]
 mod cmd;
 fn main() {
     let _app = App::new("mytools")
@@ -39,6 +41,8 @@ fn main() {
             let command = r#"FOR /d /r . %d in (node_modules) DO @if exist %d rd /s/q %d  && @ECHO  %d **DELETED**"#;
             cmd::command(command.to_string());
         } else {
+            let commnad = r#"find . -type d -name "node_modules" -exec rm -rf {} +"#;
+            bs::command(commnad.to_string())
         };
     }
 
@@ -55,7 +59,6 @@ fn main() {
             print!("{}", command.to_string());
             cmd::command(command);
         } else {
-            
         };
     }
 }
