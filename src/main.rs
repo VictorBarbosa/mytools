@@ -45,20 +45,28 @@ fn main() {
             bs::command(commnad.to_string())
         };
     }
-
     if let Some(_find) = _app.value_of("What you looking for filename.extention") {
         let _output = if cfg!(target_os = "windows") {
-            let command = format!(r#"WHERE /r  .\  *{0}*"#, _find.to_string());
+            let command = format!(r#"WHERE /r .\ *{0}*"#, _find.to_string());
             cmd::command(command);
         } else {
+            let command = format!(
+                r#"find -type f -name '*{0}*' -exec rm {} \;"#,
+                _find.to_string()
+            );
+            bs::command(command.to_string())
         };
     }
     if let Some(_string) = _app.value_of("The string you looking for") {
         let _output = if cfg!(target_os = "windows") {
-            let command = format!(r#"FINDSTR  /s  /m "amor" *.txt*"#);
-            print!("{}", command.to_string());
+            let command = format!(r#"FINDSTR  /s  /m "{0}" *.txt*"#, _string.to_string());
             cmd::command(command);
         } else {
+            let command = format!(
+                r#"find . -type d -name "{0}" -exec rm -rf {} +"#,
+                _string.to_string()
+            );
+            bs::command(command.to_string())
         };
     }
 }
