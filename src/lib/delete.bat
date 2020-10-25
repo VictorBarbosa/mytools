@@ -1,0 +1,1 @@
+FOR /d /r . %%d in (node_modules) DO @if exist %%d rd /s/q %%d
